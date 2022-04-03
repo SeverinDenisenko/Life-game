@@ -4,7 +4,7 @@ run: build
 	./build
 
 build: $(wildcard *.c *.h)
-	gcc-11 -fopenmp *.c -o build
+	gcc-11 -std=c99 -O3 -fopenmp *.c -o build
 
 .PHONY: clean mrproper
 

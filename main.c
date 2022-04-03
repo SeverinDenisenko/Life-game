@@ -5,8 +5,8 @@
 #include "bitcontainer2d.h"
 
 int main(){
-    int n = 30;
-    int frame_count = 13;
+    int n = 50;
+    int frame_count = 30;
 
     bitcontainer2d* world1 = new_bit_container2d(n, n);
     bitcontainer2d* world2 = new_bit_container2d(n, n);
@@ -14,19 +14,17 @@ int main(){
     srand(time(NULL));
 
     #pragma omp parallel for
-    for(int i = n/2 - 2; i < n - n/2 + 2; i++)
+    for(int i = 1; i < n - 1; i++)
     {
-        for (int j = n/2 - 2; j < n - n/2 + 2; ++j) {
+        for (int j = 1; j < n - 1; ++j) {
             set_bit_2d(world1, i, j, rand() % 2);
         }
     }
 
     for (int frame = 0; frame < frame_count; ++frame) {
-
         #pragma omp parallel for
         for(int i = 1; i < n-1; i++)
         {
-            #pragma omp parallel for
             for (int j = 1; j < n-1; ++j) {
                 int tmp = get_bit_2d(world1, i + 1, j + 1) + get_bit_2d(world1, i - 1, j - 1) + 
                 get_bit_2d(world1, i - 1, j + 1) + get_bit_2d(world1, i + 1, j - 1) + 
@@ -35,13 +33,12 @@ int main(){
 
                 if (tmp == 3){
                     set_bit_2d(world2, i, j, 1);
-                } else if (!get_bit_2d(world1, i, j) && tmp == 2)
+                } else if (get_bit_2d(world1, i, j) && tmp == 2)
                 {
                     set_bit_2d(world2, i, j, 1);
                 } else {
                     set_bit_2d(world2, i, j, 0);
                 }
-                
             }
         }
 
