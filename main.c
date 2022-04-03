@@ -6,7 +6,7 @@
 
 int main(){
     int n = 50;
-    int frame_count = 30;
+    int frame_count = 100;
 
     bitcontainer2d* world1 = new_bit_container2d(n, n);
     bitcontainer2d* world2 = new_bit_container2d(n, n);
